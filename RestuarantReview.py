@@ -33,3 +33,20 @@ for i in range(0,1000):
 from sklearn.feature_extraction.text import CountVectorizer
 cv = CountVectorizer()
 X = cv.fit_transform(corpus).toarray()
+Y = dataset.iloc[:, 1].values
+
+#splitting the data set into training set and test set
+from sklearn.cross_validation import train_test_split
+X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size=0.2,random_state=0)
+
+# fitting classifier to training set
+from sklearn.naive_bayes import GaussianNB
+classifier = GaussianNB()
+classifier.fit(X_train,Y_train)
+
+# predicting the test set results
+yPred = classifier.predict(X_test)
+
+# Making the confusion Matrix
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(Y_test, yPred)
